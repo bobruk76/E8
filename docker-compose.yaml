@@ -32,12 +32,13 @@ services:
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=e8
       - POSTGRES_PASSWORD=postgres
-    volumes:
-      - postgresdata:/var/lib/postgresql/data
+      - POSTGRES_DB=e8
     ports:
        - 5432:5432
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+
 volumes:
   postgresdata:
     driver: local

@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Enum
+from sqlalchemy import Enum, Column, Integer, String, DateTime, Date
 from sqlalchemy.ext.declarative import declarative_base
 
 from api import db
@@ -7,21 +7,23 @@ from api import db
 Base = declarative_base()
 metadata = Base.metadata
 
-class Results(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String(300), unique=False, nullable=True)
-    words_count = db.Column(db.Integer, unique=False, nullable=True)
-    http_status_code = db.Column(db.Integer)
+class Result(Base):
+    __tablename__ = 'results'
+    _id = Column(Integer, primary_key=True)
+    address = Column(String(300), unique=False, nullable=True)
+    words_count = Column(Integer, unique=False, nullable=True)
+    http_status_code = Column(Integer)
 
 class TaskStatus (enum.Enum):
     NOT_STARTED = 1
     PENDING = 2
     FINISHED = 3
 
-class Tasks(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String(300), unique=False, nullable=True)
-    timestamp = db.Columnt(db.DateTime())
-    task_status = db.Column(Enum(TaskStatus))
-    http_status = db.Column(db.Integer)
+class Task(Base):
+    __tablename__ = 'tasks'
+    _id = Column(Integer, primary_key=True)
+    address = Column(String(300), unique=False, nullable=True)
+    timestamp = Column(DateTime())
+    task_status = Column(Enum(TaskStatus))
+    http_status = Column(Integer)
 
