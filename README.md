@@ -9,4 +9,4 @@
     http://0.0.0.0:5000/ 
 5. Должно заработать))))  
 
-docker run --rm  --name flask-db -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres:12-alpine 
+

@@ -1,8 +1,11 @@
 import enum
 from sqlalchemy import Enum
+from sqlalchemy.ext.declarative import declarative_base
 
 from api import db
 
+Base = declarative_base()
+metadata = Base.metadata
 
 class Results(db.Model):
     id = db.Column(db.Integer, primary_key=True)
