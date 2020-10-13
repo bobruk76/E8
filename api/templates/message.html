@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Сообщение
+{% endblock %}
+
+{% block content %}
+	<div class="container col-10 mx-auto">
+		<h2 class="title">Сообщение</h2>
+			<div class="card text-white bg-dark mb-3 display-2">
+					{{ message.message }}
+			</div>
+		<div class="card bg-light">
+			<h2 class="card-header">Теги (<span>{{ message.tags|length }}</span>)</h2>
+			<div class="card-body">
+				<p>
+					{% for item in message.tags %}
+						<span class="badge badge-primary badge-pill">{{ item }}</span>
+					{% endfor %}
+				</p>
+				<form method="POST" action="new-tag">
+					<div class="form-group">
+						{{ form.csrf_token }}
+						<div class="form-field">
+							{{ form.tag.label }}
+							{{ form.tag }}
+						</div>
+						<input type="submit" class="btn btn-success col-4" value="Add tag">
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="card bg-light">
+			<h2 class="card-header">Комментарии (<span>{{ message.comments|length }}</span>)</h2>
+			<div class="card-body">
+
+				{% for item in message.comments %}
+					<p class="alert alert-success">{{ item }}</p>
+				{% endfor %}
+
+			<form method="POST" action="new-comment">
+					{{ form.csrf_token }}
+				<div class="form-field">
+					{{ form.comment.label }}
+					{{ form.comment }}
+				</div>
+				<input type="submit" class="btn btn-success col-4" value="Add comment">
+			</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="{{ url_for('static', filename='scr/scripts.js' ) }}"></script>
+
+{% endblock %}

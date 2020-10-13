@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+Сообщение
+{% endblock %}
+
+{% block content %}
+	<h2 class="title">Новое сообщение</h2>
+	<form method="POST" action="/new-message">
+			{{ form.csrf_token }}
+		<div class="form-field">
+			{{ form.message.label }}
+			{{ form.message }}
+		</div>
+		<input type="submit" value="Опубликовать">
+	</form>
+{% endblock %}
