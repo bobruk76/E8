@@ -10,7 +10,7 @@ metadata = Base.metadata
 class Results(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     address = db.Column(db.String(300), unique=False, nullable=True)
-    words_count = db.Column(db.Integer(120), unique=False, nullable=True)
+    words_count = db.Column(db.Integer, unique=False, nullable=True)
     http_status_code = db.Column(db.Integer)
 
 class TaskStatus (enum.Enum):

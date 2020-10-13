@@ -9,4 +9,4 @@
     http://0.0.0.0:5000/ 
 5. Должно заработать))))  
 
-
+alembic revision --autogenerate -m "initial migration"

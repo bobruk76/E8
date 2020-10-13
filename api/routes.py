@@ -3,12 +3,12 @@ from werkzeug.utils import redirect
 from api import app
 from flask import Flask, request, render_template, url_for
 from api.forms import MessageForm, TagCommentForm
-from api.service import Message
+# from api.service import Message
 
 @app.route('/')
 def index():
-    messages = Message().get_all()
-    return render_template('index.html', messages=messages)
+    # messages = Message().get_all()
+    return render_template('index.html')
 
 @app.route('/add-site', methods=['GET','POST'])
 def add_site():
