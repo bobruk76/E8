@@ -24,19 +24,19 @@ def count_words(task_dict, search_word="python"):
     new_nsqd = NSQD()
     new_nsqd.send('tasks', search_word)
 
-    _urlopen = urlopen(task_dict.url)
-    task_dict.http_status = _urlopen.getcode()
-
-    if task_dict.http_status <= 400:
-        html = _urlopen.read()
-        soup = BeautifulSoup(html, features="html.parser")
-
-        # kill all script and style elements
-        for script in soup(["script", "style"]):
-            script.extract()  # rip it out
-        text = soup.get_text().lowcase()
-        count = text.count(search_word)
-
-    new_nsqd.send('tasks', task_dict)
+    # _urlopen = urlopen(task_dict.url)
+    # task_dict.http_status = _urlopen.getcode()
+    #
+    # if task_dict.http_status <= 400:
+    #     html = _urlopen.read()
+    #     soup = BeautifulSoup(html, features="html.parser")
+    #
+    #     # kill all script and style elements
+    #     for script in soup(["script", "style"]):
+    #         script.extract()  # rip it out
+    #     text = soup.get_text().lowcase()
+    #     count = text.count(search_word)
+    #
+    # new_nsqd.send('tasks', task_dict)
 
 
