@@ -1,14 +1,14 @@
 from __future__ import absolute_import
-from urllib.request import urlopen
+# from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup
-from celery import Celery
+
+
 
 # from _celery import nsq_host, nsq_port
+from _celery.celery import app
 
-app = Celery('first_celery')
-app.config_from_object('config.ConfigCelery')
 
 @app.task
 def count_words(task_dict, search_word="python"):
