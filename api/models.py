@@ -1,5 +1,7 @@
 import enum
-from sqlalchemy import Enum, Column, Integer, String, DateTime, Date
+from datetime import datetime
+
+from sqlalchemy import Enum, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 from api import db
@@ -23,7 +25,7 @@ class Task(Base):
     __tablename__ = 'tasks'
     _id = Column(Integer, primary_key=True)
     address = Column(String(300), unique=False, nullable=True)
-    timestamp = Column(DateTime())
+    timestamp = Column(DateTime(), default=datetime.utcnow)
     task_status = Column(Enum(TaskStatus))
     http_status = Column(Integer)
 

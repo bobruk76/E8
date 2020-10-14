@@ -2,8 +2,10 @@ from werkzeug.utils import redirect
 
 from api import app
 from flask import Flask, request, render_template, url_for
-from api.forms import MessageForm, TagCommentForm
-# from api.service import Message
+from api.forms import UrlForm
+
+from api.service import new_url
+
 
 @app.route('/')
 def index():
@@ -12,14 +14,14 @@ def index():
 
 @app.route('/add-site', methods=['GET','POST'])
 def add_site():
-    message_form = MessageForm()
-    message_db = Message()
+    url_form = UrlForm()
     if request.method == 'POST':
-        message = request.form.get('message')
-        message_db.set(message)
+        url = request.form.get('url')
+        new_url(url)
+
         return redirect('/')
 
-    return render_template('new_url.html', form=message_form)
+    return render_template('new_url.html', form=url_form)
 #
 # @app.route('/message/<_id>/', methods=['GET','POST'])
 # def message_get(_id):
