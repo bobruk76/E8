@@ -1,18 +1,16 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
-
 # from api import redis_port, redis_host
 # r = redis.StrictRedis(host=redis_host, port=redis_port, db=3)
 
 import requests
 
-from api import db
+from api import db, nsq_host, nsq_port
 from api.models import Task
 
-
 class NSQD:
-    def __init__(self, server='127.0.0.1', port=4151):
+    def __init__(self, server=nsq_host, port=nsq_port):
         self.server = "http://{}:{}/pub".format(server, port)
 
     def send(self, topic, msg):
@@ -26,10 +24,3 @@ def new_url(url):
     db.session.commit()
 
 
-def count_words(url="http://kite.com", search_word="python"):
-    html = urlopen(url).read()
-    soup = BeautifulSoup(html, features="html.parser")
-
-    # kill all script and style elements
-    for script in soup(["script", "style"]):
-        script.extract()  # rip it out
