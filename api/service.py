@@ -1,10 +1,7 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import redis
-from bson import ObjectId
-from bson.json_util import dumps, loads
-from pymongo import MongoClient
-#
+
+
 # from api import redis_port, redis_host
 # r = redis.StrictRedis(host=redis_host, port=redis_port, db=3)
 
@@ -24,12 +21,12 @@ class NSQD:
             return res
 
 def new_url(url):
-    new_task = Task(url=url)
+    new_task = Task(address=url)
     db.session.add(new_task)
     db.session.commit()
 
 
-def count_words(url = "http://kite.com", search_word = "python"):
+def count_words(url="http://kite.com", search_word="python"):
     html = urlopen(url).read()
     soup = BeautifulSoup(html, features="html.parser")
 
