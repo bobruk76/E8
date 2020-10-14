@@ -1,5 +1,4 @@
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
+from _celery.tasks import count_words
 
 # from api import redis_port, redis_host
 # r = redis.StrictRedis(host=redis_host, port=redis_port, db=3)
@@ -19,8 +18,14 @@ class NSQD:
             return res
 
 def new_url(url):
+    new_nsqd = NSQD()
+
     new_task = Task(address=url)
+
     db.session.add(new_task)
     db.session.commit()
+
+    new_nsqd.send("tasks", new_task.as_dict())
+    res = count_words.delay(url)
 
 

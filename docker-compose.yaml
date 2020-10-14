@@ -23,12 +23,12 @@ services:
 #     - postgres
 #     - nsqlookupd
   worker:
-      build:
-          context: .
-          dockerfile: _celery/Dockerfile
-      volumes:
-          - .:/app
-          -
+    build:
+        context: .
+        dockerfile: _celery/Dockerfile
+    volumes:
+        - .:/app
+
   nsqlookupd:
     image: nsqio/nsq
     command: /nsqlookupd
