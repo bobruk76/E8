@@ -4,12 +4,24 @@ import redis
 from bson import ObjectId
 from bson.json_util import dumps, loads
 from pymongo import MongoClient
+#
+# from api import redis_port, redis_host
+# r = redis.StrictRedis(host=redis_host, port=redis_port, db=3)
 
-from api import redis_port, redis_host
-r = redis.StrictRedis(host=redis_host, port=redis_port, db=3)
+import requests
 
-db_name = 'e8'
-def count_words(url = "http://kite.com", search_word="python"):
+class NSQD:
+    def __init__(self, server='127.0.0.1', port=4151):
+        self.server = "http://{}:{}/pub".format(server, port)
+
+    def send(self, topic, msg):
+        res = requests.post(self.server, params={"topic": topic}, data=msg)
+        if res.ok:
+            return res
+def new_url():
+    pass
+
+def count_words(url = "http://kite.com", search_word = "python"):
     html = urlopen(url).read()
     soup = BeautifulSoup(html, features="html.parser")
 

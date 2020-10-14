@@ -19,7 +19,7 @@ def add_site():
         message_db.set(message)
         return redirect('/')
 
-    return render_template('newmessage.html', form=message_form)
+    return render_template('new_url.html', form=message_form)
 #
 # @app.route('/message/<_id>/', methods=['GET','POST'])
 # def message_get(_id):
