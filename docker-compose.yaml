@@ -35,6 +35,10 @@ services:
       - NSQ_PORT=4151
     links:
       - redis
+      - nsqd
+    depends_on:
+      - redis
+      - nsqd
     volumes:
         - .:/app
 
