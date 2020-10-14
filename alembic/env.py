@@ -1,3 +1,4 @@
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -29,7 +30,9 @@ target_metadata = [Base.metadata]
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+# ... etc
+section = config.config_ini_section
+config.set_section_option(section, "SQLALCHEMY_DATABASE_URI", str(os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/e8")))
 
 
 def run_migrations_offline():
