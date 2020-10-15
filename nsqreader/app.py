@@ -4,8 +4,13 @@ import nsq
 
 from marshmallow import Schema, fields, pprint
 from sqlalchemy import update, table, column, create_engine
-from nsqreader import db_uri, nsq_host, nsq_port
+# from nsqreader import db_uri, nsq_host, nsq_port
+import os
 
+nsq_host = str(os.environ.get("NSQ_HOST", "localhost"))
+nsq_port = int(os.environ.get("NSQ_PORT", 4150))
+
+db_uri = str(os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/e8"))
 class ResultSchema(Schema):
     _id = fields.Integer()
     address = fields.Str()
@@ -25,15 +30,16 @@ def handler_result(message):
                        )
     try:
         db_engine = create_engine(db_uri)
-        results = schema.loads(message.body.decode())
-        for item in results:
-            _id = int(item["_id"])
+        item = schema.loads(message.body.decode())
 
-            stmt = update(db_results).where(db_results.c._id == _id). \
-                values(words_count=int(item["words_count"]),
-                       http_status_code=int(item["http_status_code"]))
+        print(item)
+        _id = int(item['_id'])
 
-            db_engine.execute(stmt)
+        stmt = update(db_results).where(db_results.c._id == _id). \
+            values(words_count=int(item["words_count"]),
+                   http_status_code=int(item["http_status_code"]))
+
+        db_engine.execute(stmt)
 
         return True
     except:
