@@ -23,8 +23,6 @@ services:
 #     - worker
 #   links:
 #     - postgres
-#     - nsqlookupd
-#     - nsqd
 #     - worker
 #
 #  worker:
@@ -45,13 +43,17 @@ services:
 #    volumes:
 #        - .:/app
 #
-#  consumer:
-#    build: .
-#    dockerfile: nsqreader/Dockerfile
-#    environment:
-#      - TCP_ADDRESSES=nsqd:4150
-#    depends_on:
-#      - nsqd
+  nsqreader:
+    build:
+      context: .
+      dockerfile: nsqreader/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/e8
+      - NSQ_HOST=nsqd
+      - NSQ_PORT=4150
+    depends_on:
+      - postgres
+      - nsqd
 
   nsqlookupd:
     image: nsqio/nsq

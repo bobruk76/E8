@@ -5,5 +5,7 @@ RUN pip install -r /opt/pip/requirements.txt
 
 ADD . /app
 WORKDIR /app
+COPY ./* /app/
 
-CMD python app/consumer.py
+ENTRYPOINT ["python"]
+CMD ["app.py"]
