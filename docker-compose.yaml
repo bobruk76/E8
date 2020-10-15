@@ -44,13 +44,14 @@ services:
 #      - nsqd
 #    volumes:
 #        - .:/app
-  consumer:
-    build: .
-    dockerfile: nsqreader/Dockerfile
-    environment:
-      - TCP_ADDRESSES=nsqd:4150
-    depends_on:
-      - nsqd
+#
+#  consumer:
+#    build: .
+#    dockerfile: nsqreader/Dockerfile
+#    environment:
+#      - TCP_ADDRESSES=nsqd:4150
+#    depends_on:
+#      - nsqd
 
   nsqlookupd:
     image: nsqio/nsq

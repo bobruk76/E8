@@ -18,5 +18,6 @@
 alembic revision --autogenerate -m "initial migration"
 alembic upgrade head
 
-celery -A _celery worker --loglevel=info
+ celery -A _celery worker --loglevel=INFO
+
 ```

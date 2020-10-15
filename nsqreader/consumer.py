@@ -4,6 +4,7 @@ from json import JSONDecodeError
 from marshmallow import Schema, fields, pprint
 import nsq
 
+from api import db
 from api.models import Result
 
 
@@ -15,9 +16,8 @@ class ResultSchema(Schema):
 
 TCP_ADDRESSES = [os.getenv('TCP_ADDRESSES', 'http://localhost:4150')]
 
-ORIGIN = {}
-DESTINATION = {}
-USERS = {}
+TASKS = {}
+RESULTS = {}
 
 def occurance(value, value_type):
     if value in value_type.keys():
@@ -26,16 +26,18 @@ def occurance(value, value_type):
 
 def handler_result(message):
     schema = ResultSchema()
-    result = Result()
-    try: 
-        result = schema.loads(message.body.decode())
-        occurance(result['user'], USERS)
-        occurance(result['destination'], DESTINATION)
-        occurance(result['origin'], ORIGIN)
-        print(USERS)
-        print(DESTINATION)
-        print(ORIGIN)
+    try:
 
+        results = schema.loads(message.body.decode())
+        for item in results:
+            _id = item["_id"]
+            result = Result.query.get_or_404(_id)
+            if result:
+                result.words_count = int(item["words_count"])
+                result.words_count = int(item["words_count"])
+                db.session.add(result)
+
+        db.session.commit()
         return True
     except JSONDecodeError:
         return False
