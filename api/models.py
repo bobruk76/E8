@@ -15,6 +15,7 @@ class Result(Base):
     address = Column(String(300), unique=False, nullable=True)
     words_count = Column(Integer, unique=False, nullable=True)
     http_status_code = Column(Integer)
+
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 

@@ -4,13 +4,13 @@ from api import app
 from flask import Flask, request, render_template, url_for
 from api.forms import UrlForm
 
-from api.service import new_url
+from api.service import new_url, get_all_results
 
 
 @app.route('/')
 def index():
-    # messages = Message().get_all()
-    return render_template('index.html')
+    results = get_all_results()
+    return render_template('index.html', results=results)
 
 @app.route('/add-site', methods=['GET','POST'])
 def add_site():
