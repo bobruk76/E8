@@ -1,4 +1,6 @@
 from __future__ import absolute_import
 from celery import Celery
 
-app = Celery('_celery', broker='redis://redis:6379/0', backend='redis://redis:6379/0', include=['_celery.tasks'])
+from _celery import broker_host
+
+app = Celery('_celery', broker=broker_host, backend=broker_host, include=['_celery.tasks'])

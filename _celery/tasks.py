@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 # from urllib.request import urlopen
+import json
 from urllib.request import urlopen
 
 import requests
@@ -11,7 +12,7 @@ from _celery.celery import app
 
 
 @app.task
-def count_words(task_dict, search_word="python"):
+def count_words(task_dict, result_dict, search_word="python"):
     class NSQD:
         def __init__(self, server=nsq_host, port=nsq_port):
             self.server = "http://{}:{}/pub".format(server, port)
@@ -22,21 +23,22 @@ def count_words(task_dict, search_word="python"):
                 return res
 
     new_nsqd = NSQD()
-    new_nsqd.send('tasks', search_word)
 
-    # _urlopen = urlopen(task_dict.url)
-    # task_dict.http_status = _urlopen.getcode()
-    #
-    # if task_dict.http_status <= 400:
-    #     html = _urlopen.read()
-    #     soup = BeautifulSoup(html, features="html.parser")
-    #
-    #     # kill all script and style elements
-    #     for script in soup(["script", "style"]):
-    #         script.extract()  # rip it out
-    #     text = soup.get_text().lowcase()
-    #     count = text.count(search_word)
-    #
-    # new_nsqd.send('tasks', task_dict)
+    _urlopen = urlopen(task_dict['address'])
+    task_dict['http_status'] = _urlopen.getcode()
+    result_dict['http_status_code'] = task_dict['http_status']
+
+    if task_dict['http_status'] <= 400:
+        html = _urlopen.read()
+        soup = BeautifulSoup(html, features="html.parser")
+
+        # kill all script and style elements
+        for script in soup(["script", "style"]):
+            script.extract()  # rip it out
+        text = soup.get_text().lower()
+        result_dict['words_count'] = text.count(search_word)
+        new_nsqd.send('results', json.dumps(result_dict))
+
+    new_nsqd.send('tasks', json.dumps(task_dict))
 
 
