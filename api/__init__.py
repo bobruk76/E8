@@ -2,6 +2,8 @@ import os
 
 
 from flask import Flask
+import redis
+
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 
