@@ -4,13 +4,15 @@ import nsq
 
 from marshmallow import Schema, fields, pprint
 from sqlalchemy import update, table, column, create_engine
-# from nsqreader import db_uri, nsq_host, nsq_port
-import os
+from nsqreader import db_uri, nsq_host, nsq_port
+# import os
+#
+# nsq_host = str(os.environ.get("NSQ_HOST", "localhost"))
+# nsq_port = int(os.environ.get("NSQ_PORT", 4150))
 
-nsq_host = str(os.environ.get("NSQ_HOST", "localhost"))
-nsq_port = int(os.environ.get("NSQ_PORT", 4150))
+# db_uri = str(os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/e8"))
+from nsqreader import db_uri
 
-db_uri = str(os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/e8"))
 db_engine = create_engine(db_uri)
 
 
