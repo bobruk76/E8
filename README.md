@@ -17,6 +17,9 @@
 Но...все очень сырое и куча ошибок.
 Хотелось все попробовать в блоке и на отладку времени не хватило(((
 ```
+export FLASK_APP=api/app
+export FLASK_ENV=development
+
 alembic revision --autogenerate -m "initial migration"
 alembic upgrade head
 

@@ -15,8 +15,8 @@
             <a href="/add-site">Добавить сайт</a>
         </p>
         <div class="list-group col-10 mx-auto">
-            {% for item in results %}
-                <a class="list-group-item list-group-item-action" href="/result/{{ item._id }}/">
+            {% for item in results|sort(attribute="_id", reverse=True) %}
+                <a class="list-group-item list-group-item-action" href="{{ item.address }}">
                     {{ item.address }}
                     <ul>
                         <li class="list-group-item list-group-item-secondary">найдено:{{ item.words_count }}</li>
