@@ -86,7 +86,7 @@ services:
 
   postgres:
     image: postgres:latest
-    container_name: flask-db
+    container_name: flask-db-e8
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres

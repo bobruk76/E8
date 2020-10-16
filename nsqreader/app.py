@@ -19,8 +19,8 @@ def handler_task(message):
     class TaskSchema(Schema):
         _id = fields.Integer()
         address = fields.Str()
-        timestamp = fields.DateTime()
-        task_status = fields.Integer()
+        timestamp = fields.Str()
+        task_stat = fields.Integer()
         http_status = fields.Integer()
 
     schema = TaskSchema()
@@ -28,9 +28,10 @@ def handler_task(message):
                        column("_id"),
                        column("address"),
                        column("timestamp"),
-                       column("task_status"),
+                       column("task_stat"),
                        column("http_status"),
                        )
+
     try:
 
         item = schema.loads(message.body.decode())
@@ -80,17 +81,18 @@ def handler_result(message):
         return False
 
 
-t = nsq.Reader(message_handler=handler_task,
-               nsqd_tcp_addresses=['{}:{}'.format(nsq_host, nsq_port)],
-               topic='tasks',
-               channel='nsqreader_channel',
-               lookupd_poll_interval=15)
-
 r = nsq.Reader(message_handler=handler_result,
                nsqd_tcp_addresses=['{}:{}'.format(nsq_host, nsq_port)],
                topic='results',
                channel='nsqreader_channel',
                lookupd_poll_interval=15)
+
+t = nsq.Reader(message_handler=handler_task,
+               nsqd_tcp_addresses=['{}:{}'.format(nsq_host, nsq_port)],
+               topic='tasks',
+               channel='nsqreader_channel_tasks',
+               lookupd_poll_interval=15)
+
 
 if __name__ == '__main__':
     nsq.run()

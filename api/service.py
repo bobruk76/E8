@@ -15,6 +15,9 @@ def new_url(url):
 def get_all_results():
     return db.session.query(Result).all()
 
+def get_all_tasks():
+    return db.session.query(Task).all()
+
 
 
 

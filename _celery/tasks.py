@@ -26,6 +26,7 @@ def count_words(task_dict, result_dict, search_word="python"):
     new_nsqd = NSQD()
     try:
         _urlopen = urlopen(task_dict['address'])
+
         task_dict['http_status'] = _urlopen.getcode()
         result_dict['http_status_code'] = task_dict['http_status']
 
@@ -40,12 +41,12 @@ def count_words(task_dict, result_dict, search_word="python"):
             result_dict['words_count'] = text.count(search_word)
 
     except HTTPError as e:
-        task_dict['http_status'] = e.code
-        result_dict['http_status_code'] = e.code
+        result_dict['http_status_code'] = int(e.code)
+        task_dict['http_status'] = result_dict['http_status_code']
 
-    except URLError as e:
-        task_dict['http_status'] = 504
+    except:
         result_dict['http_status_code'] = 504
+        task_dict['http_status'] = result_dict['http_status_code']
 
     new_nsqd.send('results', json.dumps(result_dict))
     new_nsqd.send('tasks', json.dumps(task_dict))
